@@ -1,0 +1,117 @@
+{
+  "name": "joba",
+  "version": "3.8.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build-stats": "cross-env ANALYZE=true npm run build",
+    "export": "next export",
+    "build-prod": "run-s clean build export",
+    "clean": "rimraf .next out",
+    "lint": "next lint",
+    "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
+    "commit": "cz",
+    "prepare": "husky install",
+    "postbuild": "next-sitemap",
+    "check-types": "tsc --noEmit --pretty"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.13",
+    "@react-pdf/renderer": "^3.1.9",
+    "@requestnetwork/payment-processor": "^0.38.0",
+    "@requestnetwork/request-client.js": "^0.40.0",
+    "@requestnetwork/types": "^0.36.0",
+    "@requestnetwork/web3-signature": "^0.4.36",
+    "@types/js-cookie": "^3.0.3",
+    "@types/react-datepicker": "^4.10.0",
+    "@wagmi/core": "^0.10.9",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "axios": "^1.3.4",
+    "check-types": "^11.2.2",
+    "clsx": "^1.2.1",
+    "connectkit": "^1.2.2",
+    "ethers": "^5",
+    "formik": "^2.2.9",
+    "git": "^0.1.5",
+    "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
+    "next": "^13.2.1",
+    "next-seo": "^5.15.0",
+    "next-sitemap": "^3.1.52",
+    "react": "^18.2.0",
+    "react-datepicker": "^4.11.0",
+    "react-dom": "^18.2.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-router-dom": "^6.9.0",
+    "request-shared": "https://github.com/highstack-co/request-shared.git",
+    "tailwind-merge": "^1.10.0",
+    "wagmi": "^0.12.1",
+    "yup": "^1.0.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/cz-commitlint": "^17.4.4",
+    "@next/bundle-analyzer": "^13.2.1",
+    "@percy/cli": "^1.20.0",
+    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^18.14.1",
+    "@types/react": "^18.0.28",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "autoprefixer": "^10.4.13",
+    "commitizen": "^4.3.0",
+    "cross-env": "^7.0.3",
+    "cssnano": "^5.1.15",
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-next": "^13.2.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-tailwindcss": "^3.9.0",
+    "eslint-plugin-testing-library": "^5.10.2",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.1.2",
+    "semantic-release": "^19.0.5",
+    "tailwindcss": "^3.3.1",
+    "typescript": "^4.9.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  },
+  "author": ""
+}

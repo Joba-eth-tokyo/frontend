@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+
+a {
+  @apply text-blue-700;
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+
+
+#__next {
+  min-height: 100vh;
+}
+
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track,
+.custom-scrollbar-gray::-webkit-scrollbar-track {
+  border-radius: 0.7rem;
+  margin: 0.7rem 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #323232;
+}
+
+.custom-scrollbar-gray::-webkit-scrollbar {
+  height: 0.25rem;
+}
+
+.custom-scrollbar-gray::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #777777;
+}

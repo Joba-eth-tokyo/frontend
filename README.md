@@ -1,0 +1,5 @@
+# JOBA
+
+yarn
+
+yarn start
