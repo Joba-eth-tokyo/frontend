@@ -6,8 +6,8 @@ import ModalWrapper, { ModalVariant } from '@/components/ModalWrapper';
 import { useAuth } from '@/context/auth';
 import { truncateString } from '@/utils/truncateString';
 
-const CreateInvoiceForm = dynamic(
-  () => import('@/layouts/invoice/CreateInvoiceForm'),
+const CreateSuperFluidForm = dynamic(
+  () => import('@/layouts/invoice/CreateSuperFluid'),
   {
     ssr: false,
   }
@@ -18,6 +18,7 @@ interface ProjectInvoiceModalProps {
   totalInvoiceCount: number;
   setModal: (val: boolean) => void;
   handleCreateInvoiceResponse: (values: any) => void;
+  payer_wallet: string;
 }
 
 const ProjectInvoiceModal: React.FC<ProjectInvoiceModalProps> = ({
@@ -25,6 +26,7 @@ const ProjectInvoiceModal: React.FC<ProjectInvoiceModalProps> = ({
   totalInvoiceCount,
   setModal,
   handleCreateInvoiceResponse,
+  payer_wallet,
 }) => {
   const { userData } = useAuth();
   return (
@@ -82,7 +84,10 @@ const ProjectInvoiceModal: React.FC<ProjectInvoiceModalProps> = ({
             </div>
           </div>
         </div>
-        <CreateInvoiceForm handleResponse={handleCreateInvoiceResponse} />
+        <CreateSuperFluidForm
+          handleResponse={handleCreateInvoiceResponse}
+          payer_wallet={payer_wallet}
+        />
       </>
     </ModalWrapper>
   );

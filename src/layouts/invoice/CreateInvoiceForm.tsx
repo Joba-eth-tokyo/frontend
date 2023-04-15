@@ -206,6 +206,7 @@ const CreateInvoiceForm: React.FC<CreateInvoiceFormProps> = ({
         />
       </div>
 
+      {/* Start regular request network invoice submission */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:gap-x-2 md:gap-x-4">
         <div className="mb-6 w-full md:w-1/2">
           <label

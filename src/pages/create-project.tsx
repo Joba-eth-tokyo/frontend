@@ -213,11 +213,13 @@ const CreateProject = () => {
         totalInvoiceCount={invoiceList.length}
         setModal={setShowCreateInvoiceModal}
         handleCreateInvoiceResponse={handleCreateInvoiceResponse}
+        payer_wallet={values.projectOwner || ''}
       />
 
       <InvoiceSuccessModal
         showModal={showSuccessInvoiceModal}
         requestNetworkUrl={newInvoiceDetails?.request_network_url as string}
+        invoiceId={newInvoiceDetails?.id as string}
         setModal={(val) => {
           setShowSuccessInvoiceModal(val);
           setNewInvoiceDetails(null);

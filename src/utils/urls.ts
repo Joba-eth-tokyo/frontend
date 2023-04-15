@@ -10,4 +10,5 @@ export const URLS = {
   PROJECTS: '/projects',
   VIEW_PROJECT: '/projects/',
   PAYMENT: '/payment/',
+  STREAM: '/stream/',
 };

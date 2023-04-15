@@ -72,6 +72,8 @@ export interface InvoiceData {
   currency: string;
   due_date?: string;
   invoice_status?: { id: string; name: string };
+  interval_duration?: string;
+  flow_rate_per_second?: any;
 }
 export interface ProjectData {
   id?: string;

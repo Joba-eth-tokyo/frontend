@@ -273,6 +273,9 @@ const Project = () => {
                               <p className="text-base text-brandGray-400 dark:text-brandGray-200">
                                 {projectDetails.project_invoice?.amount}{' '}
                                 {projectDetails.project_invoice?.currency}
+                                {projectDetails.project_invoice
+                                  ?.flow_rate_per_second &&
+                                  ` per ${projectDetails.project_invoice?.interval_duration}`}
                               </p>
                             </div>
                             <div className="space-y-1">
@@ -308,13 +311,19 @@ const Project = () => {
                                 }
                                 if (
                                   projectDetails.project_invoice
-                                    ?.request_network_url
+                                    ?.request_network_url ||
+                                  projectDetails.project_invoice
+                                    ?.flow_rate_per_second
                                 ) {
                                   setId(
                                     projectDetails.project_invoice
-                                      .request_network_url
+                                      .request_network_url ||
+                                      projectDetails.project_invoice.id
                                   );
-                                  setOpenModal(true);
+                                  window.open(
+                                    `/stream/${projectDetails.project_invoice.id}`
+                                  );
+                                  // setOpenModal(true);
                                 }
                               }}
                               type="button"
@@ -325,6 +334,8 @@ const Project = () => {
                               }
                               size="small"
                               disabled={
+                                projectDetails.project_invoice?.invoice_status
+                                  ?.name === 'paid' ||
                                 userData?.id === projectDetails.worker ||
                                 (userData?.id === projectDetails.client &&
                                   projectDetails.status ===
@@ -334,6 +345,46 @@ const Project = () => {
                               Pay Now
                             </Button>
                           )}
+
+                          {projectDetails.project_invoice?.invoice_status
+                            ?.name === 'paid' &&
+                            userData?.id === projectDetails.client &&
+                            projectDetails.status ===
+                              ProjectStatus.IN_PROGRESS && (
+                              <>
+                                <p className="text-base leading-none text-brandGray-400 dark:text-gray-500">
+                                  Are you satisfied with the work submitted?
+                                </p>
+                                <div className="flex">
+                                  <Button
+                                    className="mx-1"
+                                    onClick={() => {
+                                      handleUpdateProjectStatus(
+                                        ProjectStatus.COMPLETE
+                                      );
+                                    }}
+                                    type="button"
+                                    buttonType={'primary'}
+                                    size="small"
+                                  >
+                                    Yes
+                                  </Button>
+                                  <Button
+                                    className="mx-1"
+                                    onClick={() => {
+                                      handleUpdateProjectStatus(
+                                        ProjectStatus.DISPUTE
+                                      );
+                                    }}
+                                    type="outlined"
+                                    buttonType={'primary'}
+                                    size="small"
+                                  >
+                                    No
+                                  </Button>
+                                </div>
+                              </>
+                            )}
                         </div>
                       </div>
                     ) : (

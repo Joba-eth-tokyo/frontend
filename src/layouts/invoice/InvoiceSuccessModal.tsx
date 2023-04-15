@@ -16,13 +16,15 @@ interface InvoiceSuccessModalProps {
 const InvoiceSuccessModal: React.FC<InvoiceSuccessModalProps> = ({
   showModal,
   requestNetworkUrl,
+  invoiceId,
   setModal,
   handleUpdateInvoice,
 }) => {
   const { handleCopy } = useCopy();
 
-  const invoiceUrl =
-    `${window.location.origin}${URLS.PAYMENT}${requestNetworkUrl}` as string;
+  const invoiceUrl = `${window.location.origin}${
+    requestNetworkUrl ? URLS.PAYMENT : URLS.STREAM
+  }${requestNetworkUrl || invoiceId}` as string;
 
   return (
     <ModalWrapper

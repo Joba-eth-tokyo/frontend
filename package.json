@@ -23,6 +23,7 @@
     "@requestnetwork/request-client.js": "^0.40.0",
     "@requestnetwork/types": "^0.36.0",
     "@requestnetwork/web3-signature": "^0.4.36",
+    "@superfluid-finance/sdk-core": "^0.6.3",
     "@types/js-cookie": "^3.0.3",
     "@types/react-datepicker": "^4.10.0",
     "@wagmi/core": "^0.10.9",

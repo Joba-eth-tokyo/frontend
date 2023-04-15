@@ -52,7 +52,7 @@ const WalletConnectButton = ({
         <Button
           buttonType="outlined"
           size="small"
-          className="sm:px-[42px] sm:py-[13px]"
+          className="mx-auto sm:px-[42px] sm:py-[13px]"
           onClick={() => {
             setOpenModal(!openModal);
           }}
@@ -67,12 +67,12 @@ const WalletConnectButton = ({
           onMouseLeave={() => {
             setIsDisconnectBtn(false);
           }}
-          className="relative"
+          className="relative mx-auto"
         >
           <Button
             buttonType="dark"
             size="small"
-            className="sm:px-[42px] sm:py-[13px]"
+            className="mx-auto sm:px-[42px] sm:py-[13px]"
             onClick={() => {
               if (isRedirect) {
                 router.push(
@@ -108,7 +108,7 @@ const WalletConnectButton = ({
                 onClick={() => {
                   handleLogout();
                 }}
-                className="w-full rounded-lg py-3 text-base font-semibold hover:bg-brandWhite-200"
+                className="mx-auto w-full rounded-lg py-3 text-base font-semibold hover:bg-brandWhite-200"
               >
                 Disconnect
               </button>
