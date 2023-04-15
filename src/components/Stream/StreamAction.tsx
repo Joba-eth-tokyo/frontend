@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Framework } from '@superfluid-finance/sdk-core';
 import { ethers } from 'ethers';
 import dynamic from 'next/dynamic';
@@ -6,7 +7,6 @@ import { useNetwork, useProvider, useSigner } from 'wagmi';
 
 import { updateInvoiceStatus } from '@/api/invoice';
 import { useAuth } from '@/context/auth';
-import { useToast } from '@/context/Toast';
 import type { InvoiceStatusType } from '@/types';
 import { INVOICE_STATUS_TYPE } from '@/utils/constant';
 
@@ -36,7 +36,6 @@ const StreamAction = ({ streamDetails }: any) => {
   const [superSigner, setSuperSigner] = useState(null);
   const [flow, setFlow] = useState(0);
   const [flowStarted, setFlowStarted] = useState(0);
-  const { toastError, toastSuccess } = useToast();
 
   const provider = useProvider();
   const { data: signer } = useSigner();
