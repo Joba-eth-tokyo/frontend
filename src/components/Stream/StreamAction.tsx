@@ -116,7 +116,8 @@ const StreamAction = ({ streamDetails }: any) => {
         receiver: recipient,
         flowRate: flowRate.toString(),
       });
-      return await createFlowOperation.exec(superSigner);
+      await createFlowOperation.exec(superSigner);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -149,8 +150,7 @@ const StreamAction = ({ streamDetails }: any) => {
       });
 
       setFlow(0);
-
-      toastSuccess('Invoice payment success', 'Invoice payment successfully.');
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

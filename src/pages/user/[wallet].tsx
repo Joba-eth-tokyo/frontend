@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import { getUserData } from '@/api';
+import Button from '@/components/Button';
 import Container from '@/components/Container';
 import Header from '@/components/Header';
 import { EarthGlobIcon } from '@/components/icons/EarthGlobIcon';
@@ -31,8 +32,10 @@ const clients = [
 const WalletPage = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  const [products, setProducts] = useState<any | null>(null);
+  const [projects, setProjects] = useState<any | null>(null);
   const [totalEarnings, setTotalEarnings] = useState(0);
+  const [disputedCount, setDisputedCount] = useState(0);
+  const [successfulCount, setSuccessfulCount] = useState(0);
 
   const [error, setError] = useState(false);
   const router = useRouter();
@@ -44,23 +47,51 @@ const WalletPage = () => {
       getUserData(wallet as string)
         .then((res) => {
           if (res.data) {
+            console.log('res.data');
             setUserData(res.data.user);
             let sum = 0;
-            const productsData = res.data?.projects.reduce(
-              (group: any, product: any) => {
-                const groupdata = group;
-                const { client } = product;
-                groupdata[client] = groupdata[client] ?? [];
-                if (product.status === 'complete') {
-                  sum += Number(product.project_invoice.amount);
-                }
 
-                groupdata[client].push(product);
+            let projectSuccessCount = 0;
+            let projectDisputeCount = 0;
+
+            const projectsData = res.data?.projects.reduce(
+              (group: any, project: any) => {
+                const groupdata = group;
+                const { client } = project;
+                groupdata[client] = groupdata[client] ?? [];
+                if (project.status === 'complete') {
+                  sum += Number(project.project_invoice.amount);
+                  projectSuccessCount += 1;
+                }
+                if (project.status === 'dispute') {
+                  projectDisputeCount += 1;
+                }
+                groupdata[client].push(project);
                 return groupdata;
               },
               {}
             );
-            setProducts(productsData);
+            // complete, in progress, pending, dispute.
+            const statusesByOrder = [
+              'complete',
+              'in progress',
+              'pending',
+              'dispute',
+            ];
+
+            Object.entries(projectsData).forEach(([client, clientProjects]) => {
+              const sortedClientProjects = clientProjects.sort((a, b) => {
+                return (
+                  statusesByOrder.indexOf(a.status) -
+                  statusesByOrder.indexOf(b.status)
+                );
+              });
+              projectsData[client] = sortedClientProjects;
+            });
+
+            setProjects(projectsData);
+            setDisputedCount(projectDisputeCount);
+            setSuccessfulCount(projectSuccessCount);
             setTotalEarnings(sum);
           }
         })
@@ -73,10 +104,12 @@ const WalletPage = () => {
   const renderClientTotal = (client: any) => {
     let clientSum = 0;
     client.forEach((item: any) => {
-      clientSum += Number(item.project_invoice.amount);
+      if (item.status === 'complete') {
+        clientSum += Number(item.project_invoice.amount);
+      }
     });
 
-    return `Total earnings: ${clientSum} FAU`;
+    return `Total earnings: ${clientSum.toFixed(4)} xDAI`;
   };
 
   return (
@@ -88,7 +121,7 @@ const WalletPage = () => {
             {!error ? (
               <div className="mx-auto w-full overflow-hidden rounded-2xl bg-white text-left align-middle transition-all">
                 <div className="p-6 text-sm font-semibold text-primary-100">
-                  <div className="rounded-md border border-gray-400 p-4 text-lg text-brandGray-500">
+                  <div className="flex rounded-md border border-gray-400 p-4 text-lg text-brandGray-500">
                     <div>
                       <div className="h-28 w-28 overflow-hidden rounded-full border-4 border-brandGray-100">
                         <img
@@ -113,12 +146,13 @@ const WalletPage = () => {
                           </p>
 
                           <div className="mt-3">
-                            {userData?.phone?.country_code && (
-                              <p className="flex items-center text-sm font-normal">
-                                <PhoneIcon className="mr-2 h-3 w-3 stroke-black" />
-                                {`+${userData?.phone?.country_code} ${userData?.phone?.number}`}
-                              </p>
-                            )}
+                            {userData?.phone?.country_code &&
+                              userData?.phone?.number && (
+                                <p className="flex items-center text-sm font-normal">
+                                  <PhoneIcon className="mr-2 h-3 w-3 stroke-black" />
+                                  {`+${userData?.phone?.country_code} ${userData?.phone?.number}`}
+                                </p>
+                              )}
 
                             {userData?.residential_address?.street_address && (
                               <p className="mt-1 flex items-center text-sm font-normal">
@@ -137,15 +171,29 @@ const WalletPage = () => {
                         </div>
                       </div>
                     </div>
+                    <Button
+                      className="mx-auto max-h-3 self-center"
+                      onClick={() => {
+                        window.open(`/create-project`);
+                      }}
+                    >
+                      Hire me!
+                    </Button>
                   </div>
 
                   <div className=" py-10">
                     <h3 className="mb-4 text-xl">
-                      Projects (total earning: {totalEarnings} FAU)
+                      Projects (total earnings: {totalEarnings.toFixed(4)} xDAI)
+                    </h3>
+                    <h3 className="mb-4 text-xl">
+                      Completed Projects: {successfulCount}
+                    </h3>
+                    <h3 className="mb-4 text-xl">
+                      Disputed Projects: {disputedCount}
                     </h3>
                     <div className="">
-                      {products &&
-                        Object.keys(products).map((clientAddress, index) => (
+                      {projects &&
+                        Object.keys(projects).map((clientAddress, index) => (
                           <div
                             key={clientAddress}
                             className="mb-4 border-b border-gray-100"
@@ -157,13 +205,13 @@ const WalletPage = () => {
                                 alt={clientAddress}
                               />
                               <div className="pt-2 font-semibold">
-                                {renderClientTotal(products[clientAddress])}
+                                {renderClientTotal(projects[clientAddress])}
                               </div>
                             </div>
 
                             <div>
-                              {products[clientAddress] &&
-                                products[clientAddress].map((project: any) => (
+                              {projects[clientAddress] &&
+                                projects[clientAddress].map((project: any) => (
                                   <div
                                     className="mb-4 bg-gray-100 p-5 font-normal"
                                     key={project.id}
